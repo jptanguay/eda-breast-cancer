@@ -88,7 +88,7 @@ for i in range(0,30,10):
         st.pyplot(plot.get_figure())
     t += 1
 
-st.subheader("Correlation between features")
+st.markdown("#### Correlation between features")
 
 st.write('''
 
@@ -100,7 +100,7 @@ st.write('''
 
 ''')
 
-st.subheader("Separability")
+st.markdown("#### Separability")
 st.write('''
 
     The features radius_@@@, perimeter_@@@, area_@@@ and concave points_@@@ could be the most separable features. We'll validate that with with swarm plots.
@@ -143,10 +143,10 @@ def JointCompare():
     y_val = colnames[1]
 
     with col1:
-        y_val = st.selectbox("First column", colnames)
+        y_val = st.selectbox("First feature", colnames)
 
     with col3:
-        x_val = st.selectbox("Second column", colnames)
+        x_val = st.selectbox("Second feature", colnames)
         
     with col2:
         jp = sns.jointplot(x=x.loc[:, x_val],
@@ -158,7 +158,10 @@ def JointCompare():
 
         st.pyplot(jp.figure)
 
-    
+   
+   
+   
+st.write("Select two features to compare")
 JointCompare()
 
 
@@ -170,9 +173,11 @@ JointCompare()
 
 
 "---"
-st.subheader("Correlation matrix (heatmap)")
+st.subheader("Correlation matrix")
 '''
+    Bright green: strongly correlated
     
+    Dark ping: slighted inversely correlated
     
 '''
 f, ax = plt.subplots(figsize=(18,18))

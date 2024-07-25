@@ -28,7 +28,20 @@ x = data.drop(drop_cols, axis=1)
 
 
 
-st.header("Diagnosis Distributions")
+
+
+"---"
+st.header("Features comparison")
+
+'''
+    This section compares features in order to identify those who could contain redondant information. Avoiding strongly correlated features in classification tasks
+    helps reduce the complexity of the model, thus the risk of errors.
+
+'''
+
+
+
+st.subheader("Diagnosis Distributions")
 
 col1, col2 = st.columns(2)
 with col1:
@@ -43,12 +56,15 @@ with col2:
     s = "{:2.1f}".format(B/M)
     st.metric(label="Ratio Bening/Malignant", value=s)
 
-
+'''
+The dataset is somewhat unbalanced. Oversampling the M features is to be considered if a classification algorithm is used on the dataset.
+'''
 
 #####################
 # violin
 #####################
-st.header("Violin plots of standardized Data")
+"---"
+st.subheader("Violin plots of standardized Data")
 
 
 tab1, tab2, tab3 = st.tabs(["Features 1 to 10 (mean)", "Features 10 to 20 (standard error)", "Features 20 to 30 (worst)"])
@@ -72,7 +88,7 @@ for i in range(0,30,10):
         st.pyplot(plot.get_figure())
     t += 1
 
-st.subheader("Correlation")
+st.subheader("Correlation between features")
 
 st.write('''
 
@@ -92,14 +108,14 @@ st.write('''
 ''')
 
 
-"---"
 
 
 ###########################
 # joint plots
 ###########################
 
-st.header("Joint plots for the presumably correlated features ")
+"---"
+st.subheader("Joint plots for the presumably correlated features ")
 '''
     The last two features (symmetry_worst and fractal_dimension_worst) do not seem so correlated all in all.
     
@@ -152,7 +168,9 @@ JointCompare()
 # Correlation matrix ()
 ###########################
 
-st.header("Correlation matrix (heatmap)")
+
+"---"
+st.subheader("Correlation matrix (heatmap)")
 '''
     
     
@@ -166,10 +184,18 @@ st.pyplot(hm.get_figure())
 
 
 ###########################
-# Swarm plots
+# Features selection
 ###########################
+"---"
+st.header("Features selection")
 
-st.header("Swarm plots")
+'''
+    This section helps visualize which features could offer good separability in a classification tasks.
+
+'''
+
+
+st.subheader("Swarm plots")
 
 tab1, tab2, tab3 = st.tabs(["Features 1 to 10 (mean)", "Features 10 to 20 (standard error)", "Features 20 to 30 (worst)"])
 tabs = [tab1, tab2, tab3]
@@ -197,14 +223,17 @@ for i in range(0,30,10):
 ###########################
 # Mutual information
 ###########################
-st.header("Mutual information")
+"---"
+st.subheader("Mutual information")
 '''
 
-    The Mutual information given by sklearn's feature_selection.mutual_info_classif
+    The mutual information given by sklearn's feature_selection.mutual_info_classif
     
-    Suprisingly, smoothness_se appears in second position
+    Surprisingly, smoothness_se appears in the top positions
 
 '''
+
+@st.cache_data
 def make_mi_scores(X, y, discrete_features):
     mi_scores = mutual_info_classif(X, y, discrete_features=discrete_features)
     mi_scores = pd.Series(mi_scores, name="MI Scores", index=X.columns)
@@ -213,10 +242,21 @@ def make_mi_scores(X, y, discrete_features):
 
 discrete_features = x.dtypes == float
 mi_scores = make_mi_scores(x, y, discrete_features)
-mi_scores[::3]  # show a few features with their MI scores
+#mi_scores[::3]  # show a few features with their MI scores
 
-    
-    
-    
-    
-    
+col1, col2 = st.columns( [1,2] )
+
+with col1:
+    mi_scores
+
+with col2:
+    #bp = sns.barplot(mi_scores["MI Scores"])
+    plt.figure() #figsize=(10,10))
+    bp = sns.barplot(x=mi_scores.values, y=mi_scores.index, orient="y")
+    st.pyplot(bp.get_figure())
+
+
+
+
+
+

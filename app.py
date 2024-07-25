@@ -31,7 +31,15 @@ def datainfo():
     st.dataframe(data.describe())
     
 def credits():
-    st.title("The complete dataset")
+    st.title("Credits")
+    
+    ''' This whole DEA idea is taken from:
+    [Exploratory Data Analysis with Seaborn](https://www.coursera.org/projects/exploratory-data-analysis-seaborn)
+
+    '''
+    
+    
+    st.caption("wdbc.name: ")
     with open('data/wdbc.names', 'r') as content_file:
         content = content_file.read()    
         st.write(content)

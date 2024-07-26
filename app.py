@@ -60,7 +60,7 @@ if 'data' not in st.session_state:
      
 pg = st.navigation([
     st.Page("home.py", title="Home", icon=":material/home:"),
-    st.Page("classification.py", title="Classification model", icon=":material/compare_arrows:"),
+    st.Page("classification.py", title="Classification", icon=":material/compare_arrows:"),
     st.Page(datainfo, title="Dataset", icon=":material/dataset:"),
     st.Page(credits, title="Credits", icon=":material/group:"),
 ])

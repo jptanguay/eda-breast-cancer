@@ -25,9 +25,11 @@ y = data.diagnosis
 # All features
 ######################################
 
-st.header("Random forest classifier - all features")
+st.header("Random forest classifier")
+
+st.subheader("All features")
 '''
-    Classification is performed on all features using sklearn.cross_val_score with 20 iterations
+    Classification is performed on all features using sklearn.cross_val_score with 20 folds
 '''
 
 drop_cols = ['Unnamed: 32', "id", "diagnosis"]
@@ -37,27 +39,82 @@ rf = RandomForestClassifier()
 
 score = cross_val_score(rf, X, y, cv=20)
 
-c1, c2 = st.columns(2)
-
+c1, c2, c3 = st.columns(3)
 with c1:
+    st.caption("Features")
+    st.write(X.columns)
+with c2:
+    st.caption("scores")
     st.write(score)
     
+with c3:
+    st.caption("Result (accuracy)")
+    st.metric(label="Mean", value="{:2.3f}".format(score.mean()) )
+    st.metric(label="STD", value="{:2.3f}".format(score.std()) )
+     
+
+######################################
+# Top 5 features
+######################################
+st.subheader("Selected Features")
+'''
+    Classification is performed using the top 10 features identified by the mutual information 
+'''
+
+X = data[["concave points_mean", "concavity_mean", "area_worst", "smoothness_se", "radius_se", "perimeter_se", "concavity_worst", "area_mean", "concavity_se", "perimeter_mean"]]
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+rf = RandomForestClassifier()
+
+score = cross_val_score(rf, X, y, cv=20)
+
+c1, c2, c3 = st.columns(3)
+with c1:
+    st.caption("Features")
+    st.write(X.columns)
 with c2:
+    st.caption("scores")
+    st.write(score)
+    
+with c3:
+    st.caption("Result (accuracy)")
+    st.metric(label="Mean", value="{:2.3f}".format(score.mean()) )
+    st.metric(label="STD", value="{:2.3f}".format(score.std()) )
+      
+
+
+
+
+######################################
+# Best reported features
+######################################
+st.subheader("Best reported features")
+'''
+    Classification is performed on the three features mentionned in the "Results" paragraph of section 3 (see Credits page)
+'''
+
+X = data[["area_worst", "smoothness_worst", "texture_mean"]]
+
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+rf = RandomForestClassifier()
+
+score = cross_val_score(rf, X, y, cv=20)
+
+c1, c2, c3 = st.columns(3)
+with c1:
+    st.caption("Features")
+    st.write(X.columns)
+with c2:
+    st.caption("scores")
+    st.write(score)
+    
+with c3:
+    st.caption("Result (accuracy)")
     st.metric(label="Mean", value="{:2.3f}".format(score.mean()) )
     st.metric(label="STD", value="{:2.3f}".format(score.std()) )
     
-
-######################################
-# Selected features
-######################################
+    
 
 
-'''
-rf.fit(X_train, y_train)
 
-y_pred = rf.predict(X_test)
-
-acc = accuracy_score(y_test, y_pred)
-st.write(acc)
-
-'''

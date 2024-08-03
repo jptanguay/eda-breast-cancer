@@ -13,4 +13,6 @@ Inspired by: https://www.coursera.org/projects/exploratory-data-analysis-seaborn
 - Credits: Wolberg,William, Mangasarian,Olvi, Street,Nick, and Street,W.. (1995). Breast Cancer Wisconsin (Diagnostic). UCI Machine Learning Repository. https://doi.org/10.24432/C5DW2B.
 
 
+Run the app: https://eda-breast-cancer.onrender.com
+
 
